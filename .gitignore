@@ -1,2 +1,7 @@
 # Gabaritos são material interno do mentor — nunca versionar/publicar
 **/_gabaritos/
+
+# Site admin (modo professor) — roda só localmente, nunca vai para o repo público
+/admin.html
+/_sidebar-admin.md
+/ADMIN-HOME.md

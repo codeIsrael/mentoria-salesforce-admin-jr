@@ -6,21 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta name="description" content="Mentoria prática em cases para formar Analistas Salesforce Júnior, com foco em Sales Cloud e Service Cloud.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
-  <style>
-    :root {
-      --theme-color: #0176d3; /* azul Salesforce */
-    }
-    .markdown-section table {
-      display: table;
-      width: 100%;
-    }
-    .markdown-section table th, .markdown-section table td {
-      word-break: normal;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body>
   <div id="app"></div>
+  <script src="assets/theme-toggle.js"></script>
   <script>
     // Carrega o mapa de liberação ANTES de inicializar o Docsify, para que a
     // sidebar já nasça filtrada e não pisque conteúdo bloqueado na tela.
@@ -58,6 +48,10 @@
             errorText: 'Erro',
             successText: 'Copiado'
           },
+          pagination: {
+            crossChapter: true,
+            crossChapterText: true
+          },
           plugins: [
             function (hook, vm) {
               // Bloqueia acesso direto por URL a uma aula ainda não liberada
@@ -83,9 +77,11 @@
           ]
         };
 
-        ['https://cdn.jsdelivr.net/npm/docsify@4',
-         'https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js',
-         'https://cdn.jsdelivr.net/npm/docsify-copy-code@3'
+        [
+          'https://cdn.jsdelivr.net/npm/docsify@4',
+          'https://cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js',
+          'https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js',
+          'https://cdn.jsdelivr.net/npm/docsify-copy-code@3'
         ].forEach(function (src) {
           var s = document.createElement('script');
           s.src = src;
