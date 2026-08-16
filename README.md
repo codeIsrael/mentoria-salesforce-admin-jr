@@ -20,10 +20,10 @@ Cada aula tem **3 cases**, sempre na mesma ordem:
 
 | # | Módulo | Temas |
 |---|--------|-------|
-| 1 | Fundamentos da Plataforma | Objetos, Tipos de campo, Layout/Record Page, Regras de validação, Relacionamentos, Campos Fórmula |
-| 2 | Segurança e Acesso | Perfis, Papéis, OWD, Permission Sets, Sharing Rules |
-| 3 | Automação Básica | Flow (Screen Flow, Record-Triggered básico) |
-| 4 | Sales Cloud | Leads, Oportunidades/Pipeline, Contas/Contatos, Price Book |
+| [1](modulo-1-fundamentos-da-plataforma/) | Fundamentos da Plataforma | Objetos, Tipos de campo, Layout/Record Page, Regras de validação, Relacionamentos, Campos Fórmula |
+| [2](modulo-2-seguranca-e-acesso/) | Segurança e Acesso | Perfis, Papéis, OWD, Permission Sets, Sharing Rules |
+| [3](modulo-3-automacao-basica/) | Automação Básica | Flow (Screen Flow, Record-Triggered básico) |
+| [4](modulo-4-sales-cloud/) | Sales Cloud | Leads, Oportunidades/Pipeline, Contas/Contatos, Price Book |
 | 5 | Service Cloud | Cases, Filas, Assignment Rules, Omni-Channel, Macros, Knowledge, SLA |
 | 6 | Relatórios e Dados | Relatórios, Dashboards, Joined Reports, Data Loader/Import Wizard |
 | 7 | Rotina do Analista e Gestão de Mudança | Sandbox real, Change Sets, Approval Process, case integrador final |
