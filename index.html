@@ -22,32 +22,77 @@
 <body>
   <div id="app"></div>
   <script>
-    window.$docsify = {
-      name: 'Mentoria Salesforce',
-      repo: '',
-      loadSidebar: true,
-      subMaxLevel: 2,
-      auto2top: true,
-      maxLevel: 4,
-      alias: {
-        '/.*/_sidebar.md': '/_sidebar.md'
-      },
-      search: {
-        maxAge: 86400000,
-        paths: 'auto',
-        placeholder: 'Buscar...',
-        noData: 'Nada encontrado.',
-        depth: 4
-      },
-      copyCode: {
-        buttonText: 'Copiar',
-        errorText: 'Erro',
-        successText: 'Copiado'
-      }
-    }
+    // Carrega o mapa de liberação ANTES de inicializar o Docsify, para que a
+    // sidebar já nasça filtrada e não pisque conteúdo bloqueado na tela.
+    fetch('releases.json?_=' + Date.now()) // cache-bust: sempre pega a versão mais recente
+      .then(function (r) { return r.json(); })
+      .catch(function () { return {}; }) // se o fetch falhar, libera tudo por segurança
+      .then(function (releases) {
+
+        function releaseKeyFromPath(path) {
+          var m = (path || '').match(/^\/?(modulo-[^/]+)\/(aula-[^/]+)\//);
+          return m ? (m[1] + '/' + m[2]) : null;
+        }
+
+        function isReleased(path) {
+          var key = releaseKeyFromPath(path);
+          if (!key) return true; // home, visão geral do módulo etc. sempre visíveis
+          return releases[key] !== false; // não listado = liberado por padrão
+        }
+
+        window.$docsify = {
+          name: 'Mentoria Salesforce',
+          loadSidebar: true,
+          subMaxLevel: 2,
+          auto2top: true,
+          maxLevel: 4,
+          search: {
+            maxAge: 86400000,
+            paths: 'auto',
+            placeholder: 'Buscar...',
+            noData: 'Nada encontrado.',
+            depth: 4
+          },
+          copyCode: {
+            buttonText: 'Copiar',
+            errorText: 'Erro',
+            successText: 'Copiado'
+          },
+          plugins: [
+            function (hook, vm) {
+              // Bloqueia acesso direto por URL a uma aula ainda não liberada
+              hook.beforeEach(function (content, next) {
+                if (!isReleased(vm.route.path)) {
+                  next('# 🔒 Conteúdo ainda não liberado\n\nEssa aula ainda não foi liberada pelo mentor. Volte em breve!');
+                  return;
+                }
+                next(content);
+              });
+              // Esconde da sidebar qualquer aula ainda não liberada
+              hook.doneEach(function () {
+                document.querySelectorAll('.sidebar-nav a[href]').forEach(function (a) {
+                  var href = a.getAttribute('href') || '';
+                  var m = href.match(/#\/?(modulo-[^/]+)\/(aula-[^/]+)\//);
+                  if (m && releases[m[1] + '/' + m[2]] === false) {
+                    var li = a.closest('li');
+                    if (li) li.style.display = 'none';
+                  }
+                });
+              });
+            }
+          ]
+        };
+
+        ['https://cdn.jsdelivr.net/npm/docsify@4',
+         'https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js',
+         'https://cdn.jsdelivr.net/npm/docsify-copy-code@3'
+        ].forEach(function (src) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.async = false; // preserva a ordem: núcleo do Docsify antes dos plugins
+          document.body.appendChild(s);
+        });
+      });
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@3"></script>
 </body>
 </html>
